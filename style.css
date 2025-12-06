@@ -221,11 +221,14 @@ label {
     background-position: center;
     background-repeat: no-repeat;
     color: white;
-    padding-top: 1.5rem;
-    /* Reduced from 3rem */
+
+    /* Specific user requests */
+    margin: 0px 0px 8px;
+    padding: 0px 0px 12px;
+
     font-size: 0.85rem;
-    /* Slightly smaller text */
     margin-top: auto;
+    /* This might be overridden by margin above if not careful, margin shorthand resets all. margin-top: auto is important for sticky footer. */
 }
 
 .footer-content {

@@ -140,23 +140,29 @@ main {
     /* Centered as requested */
     width: 100%;
     max-width: 1200px;
-    margin-bottom: 2rem;
+    margin: 0 auto 2rem auto;
+    /* Center the container itself */
     color: #333;
 }
 
 .hero-section h2 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
+    /* Changed to Sans Serif */
     color: #0047AB;
     font-size: 2.2rem;
     font-weight: 700;
-    margin-bottom: 0.2rem;
-    /* Reduced spacing */
+    margin-bottom: 0.5rem;
 }
 
 .hero-section p {
-    color: var(--text-color);
-    max-width: 900px;
-    margin-bottom: 1rem;
+    font-family: 'Inter', sans-serif;
+    /* Changed to Sans Serif */
+    font-size: 1.1rem;
+    color: #555;
+    margin-top: 0;
+    line-height: 1.2;
+    max-width: 100%;
+    /* Ensure paragraph takes full width for centering */
     text-align: justify;
     /* Justified text */
 }

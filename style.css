@@ -258,15 +258,11 @@ label {
     margin-bottom: 0.5rem;
 }
 
-.ssl-badge {
-    background: #00204a;
-    border: 1px solid #3b82f6;
-    color: white;
-    padding: 0.5rem 1rem;
+.ssl-logo-img {
+    height: 30px;
+    width: auto;
+    margin-top: 5px;
     border-radius: 4px;
-    font-weight: bold;
-    font-family: monospace;
-    letter-spacing: 1px;
 }
 
 .footer-col h4 {

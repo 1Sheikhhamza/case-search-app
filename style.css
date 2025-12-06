@@ -691,11 +691,29 @@ select option {
     color: #333;
     font-size: 1.1rem;
     flex: 1;
-    text-align: right;
+    text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-left: 2rem;
+    margin: 0 1rem;
+}
+
+.pdf-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.action-btn {
+    background: white;
+    color: #333;
+    border: 1px solid #e2e8f0;
+}
+
+.action-btn:hover {
+    background-color: #f1f5f9;
+    color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 .pdf-container {

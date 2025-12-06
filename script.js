@@ -19,6 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const modifySearchBtn = document.getElementById('modify-search-btn');
     const newSearchBtn = document.getElementById('new-search-btn');
     const backToResultsBtn = document.getElementById('back-to-results-btn');
+    const printPdfBtn = document.getElementById('print-pdf-btn');
+    const downloadPdfBtn = document.getElementById('download-pdf-btn');
+
+    let currentPdfUrl = null;
+    let currentPdfTitle = 'Document.pdf';
 
     // HELPER: Switch Views
     function switchView(viewName) {
@@ -238,6 +243,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // We pass the absolute SC URL to our local proxy
         const proxyUrl = `/proxy-pdf?url=${encodeURIComponent(url)}`;
 
+        // Store for actions
+        currentPdfUrl = proxyUrl;
+        currentPdfTitle = title || 'Judgment';
+
         renderPDF(proxyUrl);
         switchView('pdf');
     }
@@ -261,6 +270,195 @@ document.addEventListener('DOMContentLoaded', () => {
         pdfContainer.innerHTML = ''; // Clear to stop memory/audio/video
         switchView('results');
     });
+
+    // PRINT FUNCTIONALITY
+    printPdfBtn.addEventListener('click', async () => {
+        if (!currentPdfUrl) return;
+
+        const originalText = printPdfBtn.innerHTML;
+        printPdfBtn.innerHTML = 'Preparing...';
+        printPdfBtn.disabled = true;
+
+        try {
+            // Fetch original
+            const response = await fetch(currentPdfUrl);
+            const arrayBuffer = await response.arrayBuffer();
+
+            // VALIDATE MAGIC BYTES (%PDF)
+            const headerArr = new Uint8Array(arrayBuffer.slice(0, 5));
+            const headerStr = String.fromCharCode(...headerArr);
+            if (!headerStr.startsWith('%PDF-')) {
+                console.error("Invalid PDF Structure. Header:", headerStr);
+                alert('Cannot print: The source file is not a valid PDF.');
+                printPdfBtn.disabled = false;
+                printPdfBtn.innerHTML = originalText;
+                return;
+            }
+
+            // Add Footer
+            const modifiedPdfBytes = await addFooterToPdf(arrayBuffer);
+
+            // Create Blob URL for the modified PDF
+            const blob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
+            const blobUrl = URL.createObjectURL(blob);
+
+            // Create a hidden iframe
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = blobUrl;
+            document.body.appendChild(iframe);
+
+            iframe.onload = function () {
+                try {
+                    iframe.contentWindow.focus();
+                    iframe.contentWindow.print();
+                } catch (e) {
+                    console.error("Print failed", e);
+                    alert("Could not print the document directly. Please try downloading it.");
+                }
+                // Cleanup after a delay (enough for print dialog to show)
+                // Extended to 5 minutes (300000ms) to prevent closing while user is selecting printer
+                setTimeout(() => {
+                    document.body.removeChild(iframe);
+                    URL.revokeObjectURL(blobUrl);
+                }, 300000);
+            };
+        } catch (error) {
+            console.error("Print generation error:", error);
+            alert("Error preparing document for print.");
+        } finally {
+            printPdfBtn.innerHTML = originalText;
+            printPdfBtn.disabled = false;
+        }
+    });
+
+    // DOWNLOAD FUNCTIONALITY
+    downloadPdfBtn.addEventListener('click', async () => {
+        if (!currentPdfUrl) return;
+
+        const originalText = downloadPdfBtn.innerHTML;
+        downloadPdfBtn.innerHTML = 'Downloading...';
+        downloadPdfBtn.disabled = true;
+
+        try {
+            const response = await fetch(currentPdfUrl);
+            if (!response.ok) throw new Error('Network response was not ok');
+
+            // Check content type to warn if not PDF
+            const contentType = response.headers.get('content-type');
+            if (contentType && !contentType.includes('pdf') && !contentType.includes('stream')) {
+                console.warn("Fetched document might not be a PDF:", contentType);
+                // We won't block purely on header as some servers are misconfigured, but valid PDFs must have %PDF signature
+            }
+
+            const arrayBuffer = await response.arrayBuffer();
+
+            // VALIDATE MAGIC BYTES (%PDF)
+            const headerArr = new Uint8Array(arrayBuffer.slice(0, 5));
+            const headerStr = String.fromCharCode(...headerArr);
+            if (!headerStr.startsWith('%PDF-')) {
+                console.error("Invalid PDF Structure. Header:", headerStr);
+
+                // If it looks like HTML, it's likely an error page
+                if (headerStr.trim().startsWith('<') || headerStr.includes('html')) {
+                    alert('The requested document is not available properly (Source returned HTML error).');
+                } else {
+                    alert('The source file is not a valid PDF.');
+                }
+                return; // Stop execution
+            }
+
+            // Add Footer
+            const modifiedPdfBytes = await addFooterToPdf(arrayBuffer);
+
+            const blob = new Blob([modifiedPdfBytes], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            // Ensure filename ends in .pdf
+            // Logic to be extremely safe with filename
+            const timestamp = new Date().getTime();
+            let safeName = "Digital_BLD_Judgment";
+
+            // Try to add a bit of the title if safe
+            if (currentPdfTitle) {
+                // Take only first 20 alphanumeric chars
+                const clean = currentPdfTitle.toString().replace(/[^a-zA-Z0-9]/g, '').substring(0, 20);
+                if (clean.length > 0) safeName += "_" + clean;
+            }
+
+            let filename = `${safeName}_${timestamp}.pdf`;
+
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            setTimeout(() => document.body.removeChild(a), 100);
+        } catch (error) {
+            console.error('Download error:', error);
+            alert('Failed to download PDF.');
+        } finally {
+            downloadPdfBtn.innerHTML = originalText;
+            downloadPdfBtn.disabled = false;
+        }
+    });
+
+    // PDF MODIFICATION HELPER
+    async function addFooterToPdf(pdfArrayBuffer) {
+        try {
+            // Ensure PDFLib is available
+            if (typeof PDFLib === 'undefined') {
+                console.error("PDFLib not loaded");
+                return pdfArrayBuffer;
+            }
+
+            const { PDFDocument, StandardFonts, rgb } = PDFLib;
+            const pdfDoc = await PDFDocument.load(pdfArrayBuffer);
+
+            // Embed the font - CRITICAL for text drawing
+            const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+
+            const pages = pdfDoc.getPages();
+
+            // Format Date: "Printed on: DD-MMM-YYYY HH:MM AM/PM"
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+            const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+            const footerText = `Printed on: ${dateStr} ${timeStr} | (C) Copyright to Sheikh Hamza`;
+
+            // Draw on each page
+            pages.forEach(page => {
+                const { width, height } = page.getSize();
+                // Draw text at bottom center
+                page.drawText(footerText, {
+                    x: 20,
+                    y: 10,
+                    size: 9,
+                    font: helveticaFont,
+                    color: rgb(0, 0, 0),
+                });
+            });
+
+            const savedBytes = await pdfDoc.save();
+
+            // Post-save validation: Check if it still has %PDF
+            if (savedBytes.length > 5) {
+                const header = String.fromCharCode(...savedBytes.slice(0, 5));
+                if (!header.startsWith('%PDF-')) {
+                    console.error("Modified PDF corrupted header");
+                    return pdfArrayBuffer;
+                }
+            }
+
+            return savedBytes;
+
+        } catch (error) {
+            console.error("PDF Lib Error:", error);
+            // Fallback: return original if editing fails
+            return pdfArrayBuffer;
+        }
+    }
 
     // Combobox Logic (rest of file remains)
     const caseTypeInput = document.getElementById('case_type_input');

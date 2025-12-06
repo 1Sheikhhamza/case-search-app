@@ -234,8 +234,8 @@ label {
     display: grid;
     grid-template-columns: 1fr 1.5fr 1fr 2fr;
     /* Adjusted for content balance */
-    gap: 1.5rem;
-    /* Reduced gap */
+    gap: 4rem;
+    /* Increased from 1.5rem */
     padding: 0 2rem 1.5rem 2rem;
     /* Reduced bottom padding */
 }

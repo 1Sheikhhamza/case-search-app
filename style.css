@@ -33,8 +33,9 @@ body {
 }
 
 .background-overlay {
-    display: none;
-    /* Removed for clean white look */
+    display: block;
+    /* Force show */
+    pointer-events: none;
 }
 
 /* VIEW ARCHITECTURE */

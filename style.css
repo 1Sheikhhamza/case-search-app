@@ -215,8 +215,11 @@ label {
 
 /* FOOTER STYLES */
 .main-footer {
-    /* More vibrant Blue Gradient to match reference */
-    background: linear-gradient(90deg, #1c64d8 0%, #002b5e 100%);
+    /* Background Image as requested */
+    background-image: url('footer-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     color: white;
     padding-top: 3rem;
     font-size: 0.9rem;

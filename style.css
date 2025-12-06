@@ -25,8 +25,8 @@
 body {
     font-family: 'Inter', sans-serif;
     color: var(--text-color);
-    background: transparent;
-    /* Changed from var(--bg-gradient) to allow overlay to show */
+    background: var(--bg-gradient);
+    /* Restored original background */
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -34,8 +34,8 @@ body {
 }
 
 .background-overlay {
-    display: block;
-    /* Force show */
+    display: none;
+    /* Hide overlay as requested */
     pointer-events: none;
 }
 

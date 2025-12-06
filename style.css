@@ -162,9 +162,8 @@ main {
     margin-top: 0;
     line-height: 1.2;
     max-width: 100%;
-    /* Ensure paragraph takes full width for centering */
-    text-align: justify;
-    /* Justified text */
+    text-align: center;
+    /* Forced center alignment */
 }
 
 .search-card {

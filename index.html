@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital BLD - Legal Search</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    </script>
+
+</head>
+
+<body>
+    <div class="background-overlay"></div>
+
+    <header>
+        <div class="logo-container">
+            <img src="logo.png" alt="Digital BLD" class="sc-logo">
+            <div class="brand-text">
+                <h1>Digital BLD</h1>
+            </div>
+        </div>
+        <nav class="header-menu">
+            <a href="#">OUR SUBSCRIPTIONS</a>
+            <a href="#">BLOG</a>
+            <a href="#">TESTIMONIAL</a>
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=User&background=random" alt="Profile" class="user-avatar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- VIEW 1: SEARCH FORM -->
+        <div id="search-view" class="view-section">
+            <div class="hero-section">
+                <h2>A platform initiated by the Bangladesh Bar Council</h2>
+                <p>For judges, lawyers, and legal researchers, <strong>Bangladesh Bar Council</strong> as the licensing
+                    and
+                    regulatory authority for all advocates in Bangladesh, its primary functions include maintaining the
+                    role
+                    of advocates, conducting enrollment exams, setting professional standards, and resolving cases of
+                    professional misconduct.</p>
+                <p>Digital BLD reflects a bold institutional reform led by the Bangladesh Bar Council, the nation's
+                    licensing and regulatory body for advocates, reinforcing its commitment to justice, modernization,
+                    and
+                    the rule of law.</p>
+            </div>
+
+            <div class="search-card">
+                <div class="card-header">
+                    <h3>Search Judgments</h3>
+                    <p>High Court Division Judgment Search</p>
+                </div>
+
+                <!-- Form no longer submits directly, handled by JS -->
+                <form id="search-form" class="search-form">
+                    <!-- Hidden fields for backend logic -->
+                    <input type="hidden" name="page" value="judgments.php">
+                    <input type="hidden" name="menu" value="00">
+                    <input type="hidden" name="div_id" value="2">
+                    <input type="hidden" name="lang" value="">
+
+                    <div class="form-group">
+                        <label for="case_type_id">Case Type</label>
+                        <div class="combobox-container">
+                            <input type="text" id="case_type_input" placeholder="Type to search case type..."
+                                autocomplete="off">
+                            <ul id="case_type_results" class="results-list hidden"></ul>
+                            <select name="case_type_id" id="case_type_id" class="hidden-select" style="display:none;">
+                                <option value="">-- Select Case Type --</option>
+                                <option value="66">Letter of Administration Suit</option>
+                                <option value="74">Misc.</option>
+                                <option value="70">Violation Misc</option>
+                                <option value="67">Review Petition</option>
+                                <option value="72">Criminal Rule(Con A)</option>
+                                <option value="73">Suo-Muto Rule (Original)</option>
+                                <option value="76">Criminal Misc (Suo-Muto) Rule</option>
+                                <option value="61">In re : Writ Petition</option>
+                                <option value="46">Death Reference</option>
+                                <option value="47">Election Petition</option>
+                                <option value="34">Execution Case</option>
+                                <option value="22">Company Matter</option>
+                                <option value="23">Contempt Matter</option>
+                                <option value="13">Writ Petition</option>
+                                <option value="24">Customs Appeal</option>
+                                <option value="25">Divorce Suit</option>
+                                <option value="26">Income Tax Reference</option>
+                                <option value="27">Merchant Shipping</option>
+                                <option value="28">Trademark Appeal</option>
+                                <option value="29">Trademark Application</option>
+                                <option value="30">VAT Appeal</option>
+                                <option value="1">First Appeal</option>
+                                <option value="2">First Misc Appeal</option>
+                                <option value="3">Cross Objection</option>
+                                <option value="4">Transfer Appeal</option>
+                                <option value="5">Civil Rule</option>
+                                <option value="6">Civil Revision</option>
+                                <option value="7">Civil Misc</option>
+                                <option value="8">Civil Order</option>
+                                <option value="9">Criminal Appeal(H)</option>
+                                <option value="10">Criminal Revision</option>
+                                <option value="11">Criminal Misc</option>
+                                <option value="12">Jail Appeal(H)</option>
+                                <option value="14">Contempt Petition(H)</option>
+                                <option value="15">Review Petition</option>
+                                <option value="16">Suo-Muto Rule</option>
+                                <option value="17">Transfer Petiion</option>
+                                <option value="18">Admiralty Suit</option>
+                                <option value="19">Arbitration Appeal</option>
+                                <option value="20">Arbitration Application</option>
+                                <option value="21">Cancellation of Design Petition</option>
+                                <option value="31">All</option>
+                                <option value="32">Second Appeal</option>
+                                <option value="33">Second Misc Appeal</option>
+                                <option value="35">Civil Appeal</option>
+                                <option value="36">Civil Petition</option>
+                                <option value="37">Civil Misc Petition</option>
+                                <option value="38">Civil Review Petition</option>
+                                <option value="39">Criminal Appeal(A)</option>
+                                <option value="40">Criminal Petition</option>
+                                <option value="41">Criminal Misc Petition</option>
+                                <option value="42">Criminal Review Petition</option>
+                                <option value="43">Jail Petition</option>
+                                <option value="44">Jail Appeal(A)</option>
+                                <option value="45">Contempt Petition(A)</option>
+                                <option value="55">Criminal Rule</option>
+                                <option value="48">First Appeal Tender</option>
+                                <option value="50">Jail Appeal Admission</option>
+                                <option value="51">Reference Application</option>
+                                <option value="56">Suo Muto</option>
+                                <option value="57">Govt. Appeal</option>
+                                <option value="49">First Misc Appeal Tender</option>
+                                <option value="59">I.T.R.</option>
+                                <option value="60">Rule</option>
+                                <option value="62">In re</option>
+                                <option value="63">Nil</option>
+                                <option value="58">Contempt</option>
+                                <option value="68">AAT</option>
+                                <option value="69">Contempt Petition</option>
+                                <option value="64">Contempt Rule</option>
+                                <option value="65">Summary Suit</option>
+                                <option value="71">Criminal Rule(Con)</option>
+                                <option value="75">Transferred Misc Case</option>
+                                <option value="79">Arbitration Rule</option>
+                                <option value="77">Suo-Muto Contempt Rule</option>
+                                <option value="78">Bank Company Application</option>
+                                <option value="80">Family Matter</option>
+                                <option value="81">Civil Review</option>
+                                <option value="82">Criminal Revision (Suo-Muto)</option>
+                                <option value="85">Govt. Criminal Appeal</option>
+                                <option value="89">Violation Misc</option>
+                                <option value="90">In re : VC Writ Petition</option>
+                                <option value="93">VC Civil Rule</option>
+                                <option value="94">In re : VC F M A</option>
+                                <option value="100">In-re VC Voilation Misc</option>
+                                <option value="83">Violation Case</option>
+                                <option value="84">Criminal Review Rule</option>
+                                <option value="88">Violation Misc. Rule</option>
+                                <option value="95">VC Criminal Misc. Case</option>
+                                <option value="101">VC Contempt Petition (H)</option>
+                                <option value="97">VC Criminal Appeal</option>
+                                <option value="103">V.C.</option>
+                                <option value="86">Copy Right Appeal</option>
+                                <option value="87">VAT Revision</option>
+                                <option value="91">In re : VC</option>
+                                <option value="92">VC Writ Petition</option>
+                                <option value="96">In re : VC F A</option>
+                                <option value="98">In re : VC Civil Revision</option>
+                                <option value="99">VC Civil Revision</option>
+                                <option value="102">VC First Appeal</option>
+                                <option value="104">VC Criminal Revision</option>
+                                <option value="114">Bank Company Matter</option>
+                                <option value="118">Industrial Design Appeal</option>
+                                <option value="108">........</option>
+                                <option value="113">Civil Reference Case</option>
+                                <option value="117">Civil Case</option>
+                                <option value="107">No Number</option>
+                                <option value="110">Cancellation of Trademark Petition</option>
+                                <option value="112">Departmental Case</option>
+                                <option value="116">Civil Rule (Contempt)</option>
+                                <option value="105">Financial Institution</option>
+                                <option value="106">Tender</option>
+                                <option value="109">Suo-Moto Rule Contempt</option>
+                                <option value="111">Insurance Appeal</option>
+                                <option value="115">Transfer Miscellaneous Case</option>
+                            </select>
+                            <svg class="chevron-down" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="case_number">Case/Tender Number</label>
+                            <input type="text" name="case_number" id="case_number" placeholder="e.g. 1234">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="year">Year</label>
+                            <input type="number" name="year" id="year" placeholder="e.g. 2024" min="1900" max="2099">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="parties">Parties</label>
+                        <input type="text" name="parties" id="parties"
+                            placeholder="e.g. Name of petitioner or respondent">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="short_desc">Short Description</label>
+                        <input type="text" name="short_desc" id="short_desc" placeholder="Keywords from the judgment">
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" class="search-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            Search Records
+                        </button>
+
+                        <button type="button" id="reset-btn" class="reset-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 12" />
+                            </svg>
+                            Reset
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- VIEW 2: RESULTS GRID -->
+        <div id="results-view" class="view-section hidden">
+            <div class="results-header">
+                <h2>Search Results</h2>
+                <div class="results-actions">
+                    <button class="nav-btn modify-btn" id="modify-search-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="14 2 18 6 7 17 3 17 3 13 14 2"></polygon>
+                            <line x1="3" y1="22" x2="21" y2="22"></line>
+                        </svg>
+                        Modify Search
+                    </button>
+                    <button class="nav-btn new-btn" id="new-search-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        New Search
+                    </button>
+                </div>
+            </div>
+
+            <div id="results-grid" class="results-grid">
+                <!-- Cards will be injected here via JS -->
+            </div>
+            <div id="loading-indicator" class="hidden">
+                <div class="spinner"></div>
+                <p>Fetching cases...</p>
+            </div>
+        </div>
+
+        <!-- VIEW 3: PDF PREVIEW -->
+        <div id="pdf-view" class="view-section hidden">
+            <div class="pdf-header">
+                <button class="nav-btn back-btn" id="back-to-results-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    Back to Results
+                </button>
+                <div class="doc-title" id="current-doc-title">Case Document</div>
+            </div>
+            <div class="pdf-container" id="pdf-container">
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Digital BLD - Bangladesh Bar Council Initiative.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -243,11 +243,14 @@ label {
 }
 
 .brand-col {
-    align-items: flex-start;
+    align-items: center;
+    /* Centered as requested */
+    text-align: center;
 }
 
 .footer-logo img {
-    width: 80px;
+    width: 110px;
+    /* Increased size */
     height: auto;
 }
 
@@ -263,8 +266,8 @@ label {
 }
 
 .ssl-logo-img {
-    height: 48px;
-    /* Increased size as requested */
+    height: 38px;
+    /* Decreeased size */
     width: auto;
     margin-top: 5px;
     border-radius: 4px;

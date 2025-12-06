@@ -421,8 +421,8 @@ select option {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 0.25;
-    /* Subtle transparency to make appearance "goo[d]" */
+    opacity: 0.5;
+    /* Increased from 0.25 to make it clearly visible */
     pointer-events: none;
 }
 

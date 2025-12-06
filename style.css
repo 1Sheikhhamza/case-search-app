@@ -424,8 +424,8 @@ select option {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 0.5;
-    /* Increased from 0.25 to make it clearly visible */
+    opacity: 0.4;
+    /* User requested 40% transparency (0.4 opacity) */
     pointer-events: none;
 }
 

@@ -215,7 +215,8 @@ label {
 
 /* FOOTER STYLES */
 .main-footer {
-    background: linear-gradient(135deg, #0047AB 0%, #002D62 100%);
+    /* More vibrant Blue Gradient to match reference */
+    background: linear-gradient(90deg, #1c64d8 0%, #002b5e 100%);
     color: white;
     padding-top: 3rem;
     font-size: 0.9rem;
@@ -259,7 +260,8 @@ label {
 }
 
 .ssl-logo-img {
-    height: 30px;
+    height: 48px;
+    /* Increased size as requested */
     width: auto;
     margin-top: 5px;
     border-radius: 4px;

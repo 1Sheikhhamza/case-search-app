@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // CONTAINERS
     const resultsGrid = document.getElementById('results-grid');
     const pdfContainer = document.getElementById('pdf-container');
-    const loadingIndicator = document.getElementById('loading-indicator');
+    // const loadingIndicator = document.getElementById('loading-indicator'); // Removed
 
     // BUTTONS
     const modifySearchBtn = document.getElementById('modify-search-btn');
@@ -53,18 +53,14 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Show loading state on button
-        searchBtn.innerHTML = `
-            <svg class="animate-spin" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg>
-            Searching...
-        `;
+        // Show loading state on button (removed as per request)
         searchBtn.style.opacity = '0.8';
         searchBtn.style.cursor = 'wait';
 
         // Switch to results view but show loading
         switchView('results');
         resultsGrid.innerHTML = ''; // Clear previous
-        loadingIndicator.classList.remove('hidden');
+        // loadingIndicator.classList.remove('hidden'); // Removed loading indicator
 
         try {
             // Build Query String
@@ -83,9 +79,9 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(error);
             resultsGrid.innerHTML = `<div class="error-msg">Error fetching results: ${error.message}</div>`;
         } finally {
-            loadingIndicator.classList.add('hidden');
+            // loadingIndicator.classList.add('hidden');
             // Reset button
-            searchBtn.innerHTML = originalBtnText;
+            // searchBtn.innerHTML = originalBtnText; // No need to reset text if we didn't change it
             searchBtn.style.opacity = '1';
             searchBtn.style.cursor = 'pointer';
         }

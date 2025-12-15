@@ -1,6 +1,6 @@
-
+---
 deployment:
   tasks:
     - export DEPLOYPATH=/home/justicia/public_html/
-    - /bin/cp -R . $DEPLOYPATH
- 
+    - /bin/rsync -av --delete --exclude='.git*' ./ $DEPLOYPATH
+

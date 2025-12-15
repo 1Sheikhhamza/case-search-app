@@ -1,0 +1,25 @@
+name: Publish Website to cPanel
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  ftp-deploy:
+    name: FTP Deploy to cPanel
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Deploy to cPanel via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ftp.justicialegalminds.com
+          username: ftpgitsample@justicialegalminds.com
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /public_html/
